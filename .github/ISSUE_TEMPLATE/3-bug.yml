@@ -1,0 +1,130 @@
+name: Bug
+description: Something behaves differently from how it should
+title: "[Bug] "
+type: Bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please search existing issues before filing — a duplicate splits the
+        investigation across two threads.
+
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: One or two sentences. What breaks, and for whom.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Affected surface
+      multiple: true
+      options:
+        - Mobile app
+        - Web
+        - Admin console
+        - Backend / API
+        - Infrastructure
+        - Not sure
+    validations:
+      required: true
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Environment
+      options:
+        - Production
+        - Staging
+        - Local
+        - Not sure
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: >
+        Numbered, starting from a known state. Include the account, item, or
+        request used — a bug that only reproduces with specific data is still
+        reproducible, but only if you say which data.
+      value: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result
+      description: What happened instead, including any error message in full.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: >
+        Impact if left unfixed. This is not priority — priority is set during
+        triage, weighing severity against everything else in flight.
+      options:
+        - Critical — data loss, money at risk, or the product is unusable
+        - High — core flow broken, no workaround
+        - Medium — feature impaired, workaround exists
+        - Low — cosmetic or minor inconvenience
+    validations:
+      required: true
+
+  - type: dropdown
+    id: frequency
+    attributes:
+      label: How often does it reproduce?
+      options:
+        - Every time
+        - Intermittently
+        - Once, not reproduced since
+    validations:
+      required: true
+
+  - type: input
+    id: regression
+    attributes:
+      label: Last known good version
+      description: >
+        Version, build, or release where this worked. Leave blank if it has
+        never worked — that distinction changes where we look first.
+      placeholder: "v1.324"
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Device, build, or request details
+      description: >
+        Whatever applies — OS and app build for mobile, browser and version for
+        web, request or trace identifier and timestamp for backend.
+    validations:
+      required: false
+
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Screenshots, recordings, logs, dashboard links.
+    validations:
+      required: false

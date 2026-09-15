@@ -1,0 +1,61 @@
+name: Task
+description: Technical work with no directly visible user-facing change
+title: "[Task] "
+type: Task
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this for refactors, upgrades, migrations, tooling, spikes, and
+        chores. If a user would notice the change, file a Feature instead.
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What needs doing
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: Why
+      description: >
+        The cost of not doing it. Tasks without this line tend to sit in the
+        backlog until they become incidents.
+    validations:
+      required: true
+
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Affected surface
+      multiple: true
+      options:
+        - Mobile app
+        - Web
+        - Admin console
+        - Backend / API
+        - Infrastructure
+        - Cross-cutting
+    validations:
+      required: true
+
+  - type: textarea
+    id: done
+    attributes:
+      label: Definition of done
+      value: |
+        - [ ]
+    validations:
+      required: true
+
+  - type: textarea
+    id: risk
+    attributes:
+      label: Risk and rollback
+      description: >
+        What could break, and how we undo it. Required for migrations and
+        dependency upgrades; leave blank for low-risk chores.
+    validations:
+      required: false

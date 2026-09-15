@@ -1,0 +1,4 @@
+# Blank issues are disabled so every issue carries a type. Issue types drive the
+# roadmap and timeline views on the org project boards; an untyped issue is
+# invisible to them.
+blank_issues_enabled: false

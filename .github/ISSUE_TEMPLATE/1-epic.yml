@@ -1,0 +1,70 @@
+name: Epic
+description: A body of work spanning multiple features, usually more than one sprint
+title: "[Epic] "
+type: Epic
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Epics group related work. Keep this issue short — the detail belongs in
+        the Features and Tasks underneath it.
+
+  - type: textarea
+    id: outcome
+    attributes:
+      label: Outcome
+      description: What is true for users once this epic is done? Describe the end state, not the work.
+      placeholder: Collectors can claim a free daily reward without leaving the collection screen.
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Why now
+      description: The user or business problem this solves, and what happens if we don't do it.
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: In scope / Out of scope
+      description: Naming what is excluded prevents the epic growing during delivery.
+      value: |
+        **In scope**
+        -
+
+        **Out of scope**
+        -
+    validations:
+      required: true
+
+  - type: textarea
+    id: success
+    attributes:
+      label: Success measures
+      description: How we will know this worked. Prefer numbers over adjectives.
+      placeholder: |
+        - 30% of daily active collectors claim within the first week
+        - No increase in p95 collection-screen load time
+    validations:
+      required: true
+
+  - type: textarea
+    id: children
+    attributes:
+      label: Breakdown
+      description: Child issues. Leave blank if they don't exist yet — link them as they are created.
+      value: |
+        - [ ] #
+    validations:
+      required: false
+
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks and dependencies
+      description: Anything outside this epic that could block it — other teams, vendors, migrations, approvals.
+    validations:
+      required: false
