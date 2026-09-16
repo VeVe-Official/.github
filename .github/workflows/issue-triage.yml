@@ -1,0 +1,87 @@
+# Reusable: assigns an issue type from labels and asks for the details the
+# issue form would have collected.
+#
+# Exists because issues created outside the web UI — the Slack app in
+# particular — bypass issue forms entirely. Templates and blank_issues_enabled
+# are web-UI constructs, so an issue opened from Slack arrives with no type,
+# which makes it invisible to the roadmap and timeline views.
+#
+# Called by a small caller workflow in each repo; org .github workflows are not
+# inherited the way community health files are.
+name: Issue triage
+
+on:
+  workflow_call:
+
+jobs:
+  assign-type:
+    runs-on: ubuntu-latest
+    permissions:
+      issues: write
+    steps:
+      - name: Assign type from label, ask for missing detail
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          NUMBER: ${{ github.event.issue.number }}
+          AUTHOR: ${{ github.event.issue.user.login }}
+        run: |
+          set -euo pipefail
+
+          existing=$(gh api "repos/$REPO/issues/$NUMBER" --jq '.type.name // ""')
+          if [ -n "$existing" ]; then
+            echo "Issue #$NUMBER already typed as '$existing' — created through a form. Nothing to do."
+            exit 0
+          fi
+
+          labels=$(gh api "repos/$REPO/issues/$NUMBER" --jq '[.labels[].name]|join(" ")')
+          echo "Labels: ${labels:-none}"
+
+          # First match wins, most specific first. `enhancement` is GitHub's
+          # default label and the natural Feature synonym.
+          type=""
+          for l in $labels; do
+            case "$(echo "$l" | tr '[:upper:]' '[:lower:]')" in
+              epic)                  type="Epic";    break ;;
+              bug)                   type="Bug";     break ;;
+              feature|enhancement)   type="Feature"; break ;;
+              task|chore)            type="Task";    break ;;
+            esac
+          done
+
+          mapped=true
+          if [ -z "$type" ]; then
+            # Default rather than leave it untyped: an untyped issue drops out
+            # of the roadmap silently, which is the failure this guards against.
+            type="Task"
+            mapped=false
+          fi
+
+          echo "Assigning type: $type (from label: $mapped)"
+          gh api -X PATCH "repos/$REPO/issues/$NUMBER" -f "type=$type" --silent
+
+          case "$type" in
+            Epic)    fields=$'- [ ] **Outcome** — what is true for users once this is done\n- [ ] **Why now** — the problem, and the cost of not doing it\n- [ ] **In scope / out of scope**\n- [ ] **Success measures** — numbers, not adjectives\n- [ ] **Breakdown** — link child issues as they are created' ;;
+            Feature) fields=$'- [ ] **User story** — as a <role>, I want <capability>, so that <benefit>\n- [ ] **Problem** — what is painful or impossible today\n- [ ] **Acceptance criteria** — testable, given/when/then\n- [ ] **Affected surface** — mobile / web / admin / backend\n- [ ] **Out of scope**' ;;
+            Bug)     fields=$'- [ ] **Steps to reproduce** — numbered, from a known state, naming the account or data used\n- [ ] **Expected** vs **actual** result\n- [ ] **Affected surface** and **environment** (production / staging / local)\n- [ ] **Severity** and how often it reproduces\n- [ ] **Last known good version**, or state that it never worked\n- [ ] **Evidence** — screenshots, logs, trace id' ;;
+            *)       fields=$'- [ ] **What needs doing**\n- [ ] **Why** — the cost of not doing it\n- [ ] **Affected surface**\n- [ ] **Definition of done**\n- [ ] **Risk and rollback**, if this is a migration or dependency upgrade' ;;
+          esac
+
+          if [ "$mapped" = true ]; then
+            opening="This was filed outside the issue forms, so it has been typed **$type** from its \`$(echo "$labels" | cut -d' ' -f1)\` label."
+          else
+            opening="This was filed outside the issue forms with no recognised type label, so it has been defaulted to **Task**. If that is wrong, change the type directly — or add a \`bug\`, \`feature\`, \`epic\` or \`task\` label and it will not be overwritten again."
+          fi
+
+          cat > /tmp/comment.md <<EOF
+          Hi @$AUTHOR — $opening
+
+          It skipped the $type form, so the following is probably missing. Editing it into the description keeps this issue readable for whoever picks it up:
+
+          $fields
+
+          Removing the \`needs-triage\` label once that is done.
+          EOF
+
+          gh issue comment "$NUMBER" --repo "$REPO" --body-file /tmp/comment.md
+          gh issue edit "$NUMBER" --repo "$REPO" --add-label needs-triage
