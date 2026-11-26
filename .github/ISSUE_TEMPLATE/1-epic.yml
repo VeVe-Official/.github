@@ -10,44 +10,31 @@ body:
         the Features and Tasks underneath it.
 
   - type: textarea
-    id: outcome
+    id: details
     attributes:
-      label: Outcome
-      description: What is true for users once this epic is done? Describe the end state, not the work.
-      placeholder: Collectors can claim a free daily reward without leaving the collection screen.
-    validations:
-      required: true
-
-  - type: textarea
-    id: problem
-    attributes:
-      label: Why now
-      description: The user or business problem this solves, and what happens if we don't do it.
-    validations:
-      required: true
-
-  - type: textarea
-    id: scope
-    attributes:
-      label: In scope / Out of scope
-      description: Naming what is excluded prevents the epic growing during delivery.
+      label: Details
+      description: >
+        Fill in each heading. Outcome is the end state for users, not the work
+        (e.g. "Collectors can claim a free daily reward without leaving the
+        collection screen"). Why now is the problem this solves and what happens
+        if we don't do it. Naming what is out of scope stops the epic growing
+        during delivery. Success measures should be numbers over adjectives
+        (e.g. "30% of daily active collectors claim within the first week").
       value: |
+        #### Outcome
+
+        #### Why now
+
+        #### In scope / Out of scope
+
         **In scope**
         -
 
         **Out of scope**
         -
-    validations:
-      required: true
 
-  - type: textarea
-    id: success
-    attributes:
-      label: Success measures
-      description: How we will know this worked. Prefer numbers over adjectives.
-      placeholder: |
-        - 30% of daily active collectors claim within the first week
-        - No increase in p95 collection-screen load time
+        #### Success measures
+
     validations:
       required: true
 

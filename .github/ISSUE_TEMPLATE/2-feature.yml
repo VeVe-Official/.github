@@ -4,35 +4,28 @@ title: "[Feature] "
 type: Feature
 body:
   - type: textarea
-    id: story
+    id: details
     attributes:
-      label: User story
-      description: Who wants this, what they want to do, and why.
+      label: Details
+      description: >
+        Fill in each heading. User story: who wants this, what they want to do,
+        and why. Problem: what is painful or impossible today — the current
+        behaviour, not the solution. Acceptance criteria: testable statements a
+        reviewer can check without asking the author what was meant.
       value: |
+        #### User story
+
         As a <role>
         I want <capability>
         So that <benefit>
-    validations:
-      required: true
 
-  - type: textarea
-    id: problem
-    attributes:
-      label: Problem
-      description: What is painful or impossible today. Describe the current behaviour, not the solution.
-    validations:
-      required: true
+        #### Problem
 
-  - type: textarea
-    id: acceptance
-    attributes:
-      label: Acceptance criteria
-      description: >
-        Testable statements. A reviewer should be able to check each one without
-        asking the author what was meant.
-      value: |
+        #### Acceptance criteria
+
         - [ ] Given <context>, when <action>, then <result>
         - [ ]
+
     validations:
       required: true
 
@@ -50,7 +43,7 @@ body:
         - Infrastructure
         - Not sure
     validations:
-      required: true
+      required: false
 
   - type: textarea
     id: design

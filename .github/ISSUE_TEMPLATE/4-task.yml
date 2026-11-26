@@ -10,19 +10,22 @@ body:
         chores. If a user would notice the change, file a Feature instead.
 
   - type: textarea
-    id: what
+    id: details
     attributes:
-      label: What needs doing
-    validations:
-      required: true
-
-  - type: textarea
-    id: why
-    attributes:
-      label: Why
+      label: Details
       description: >
-        The cost of not doing it. Tasks without this line tend to sit in the
-        backlog until they become incidents.
+        Fill in each heading. Why is the cost of not doing it — tasks without
+        this line tend to sit in the backlog until they become incidents.
+        Definition of done is a checklist.
+      value: |
+        #### What needs doing
+
+        #### Why
+
+        #### Definition of done
+
+        - [ ]
+
     validations:
       required: true
 
@@ -39,16 +42,7 @@ body:
         - Infrastructure
         - Cross-cutting
     validations:
-      required: true
-
-  - type: textarea
-    id: done
-    attributes:
-      label: Definition of done
-      value: |
-        - [ ]
-    validations:
-      required: true
+      required: false
 
   - type: textarea
     id: risk
