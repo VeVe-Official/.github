@@ -10,10 +10,29 @@ body:
         investigation across two threads.
 
   - type: textarea
-    id: summary
+    id: details
     attributes:
-      label: Summary
-      description: One or two sentences. What breaks, and for whom.
+      label: Details
+      description: >
+        Fill in each heading. Summary: one or two sentences — what breaks, and
+        for whom. Steps to reproduce: numbered, starting from a known state;
+        include the account, item, or request used — a bug that only reproduces
+        with specific data is still reproducible, but only if you say which
+        data. Actual result: what happened instead, including any error message
+        in full.
+      value: |
+        #### Summary
+
+        #### Steps to reproduce
+
+        1.
+        2.
+        3.
+
+        #### Expected result
+
+        #### Actual result
+
     validations:
       required: true
 
@@ -30,7 +49,7 @@ body:
         - Infrastructure
         - Not sure
     validations:
-      required: true
+      required: false
 
   - type: dropdown
     id: environment
@@ -42,37 +61,7 @@ body:
         - Local
         - Not sure
     validations:
-      required: true
-
-  - type: textarea
-    id: steps
-    attributes:
-      label: Steps to reproduce
-      description: >
-        Numbered, starting from a known state. Include the account, item, or
-        request used — a bug that only reproduces with specific data is still
-        reproducible, but only if you say which data.
-      value: |
-        1.
-        2.
-        3.
-    validations:
-      required: true
-
-  - type: textarea
-    id: expected
-    attributes:
-      label: Expected result
-    validations:
-      required: true
-
-  - type: textarea
-    id: actual
-    attributes:
-      label: Actual result
-      description: What happened instead, including any error message in full.
-    validations:
-      required: true
+      required: false
 
   - type: dropdown
     id: severity
@@ -87,7 +76,7 @@ body:
         - Medium — feature impaired, workaround exists
         - Low — cosmetic or minor inconvenience
     validations:
-      required: true
+      required: false
 
   - type: dropdown
     id: frequency
@@ -98,7 +87,7 @@ body:
         - Intermittently
         - Once, not reproduced since
     validations:
-      required: true
+      required: false
 
   - type: input
     id: regression
